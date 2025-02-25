@@ -53,7 +53,21 @@ namespace P01_2022RR656_2022ZL650.Controllers
         }
 
 
+        [HttpGet]
+        [Route("ReservasActivas/{usuarioId}")]
+        public IActionResult ObtenerReservasActivas(int usuarioId)
+        {
+            var reservasActivas = from r in _parqueoContexto.Reservas
+                                  where r.UsuarioID == usuarioId && r.Estado == true
+                                  select r;
 
+            if (!reservasActivas.Any())
+            {
+                return NotFound("No hay reservas activas para este usuario.");
+            }
+
+            return Ok(reservasActivas.ToList());
+        }
 
 
 
